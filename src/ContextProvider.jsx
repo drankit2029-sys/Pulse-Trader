@@ -3,23 +3,46 @@ import { useContext, createContext, useState} from "react";
 const WatchlistAndPortfolioContext = createContext(null);
 
 export function WatchlistAndPortfolioProvider( {children}){
-    const [portfolio, setPortfolio] = useState([{ticker :"AAPL" , shares: 20}]);
+    const [portfolio, setPortfolio] = useState([{ticker :"AAPL" , shares: 20 , avgBuyPrice: 400},{ticker:"MSFT", shares:30 , avgBuyPrice: 300}]);
     const [watchList, setWatchlist] = useState(["AAPL"]);
+    const [portfolioValue,setPortfolioValue] = useState({invested: 5000, remaining: 5000})
 
-    function addToPortfolio(name, number){
-        if(portfolio.some(stock => stock.ticker === name)){
-            setPortfolio(portfolio.map(stock => {
-                return ((stock.ticker === name) ? {...stock, shares: stock.shares + number} : {...stock})
-            }))
-        }
-        else {
-            setPortfolio([...portfolio, {ticker : name, shares : number}])
-        }
+    function buy(name, number, price){
+        let bought = false;
+        setPortfolio(portfolio.map((stock) => {
+            if(stock.ticker === name){
+                bought = true;
+                return({...stock, shares : stock.shares + number, avgBuyPrice: (stock.avgBuyPrice*stock.shares + number*price)/(stock.shares+number)})
+            }
+            else{
+                return({...stock})
+            }
+        }))
+        !bought && setPortfolio([...portfolio, {ticker: name, shares: number, avgBuyPrice: price}])
+        setPortfolioValue({invested: portfolioValue.invested + number*price , remaining: portfolioValue.remaining - number*price})
     }
 
-    function deleteFromPortfolio(name){
-        setPortfolio(portfolio.filter( stock => stock.ticker !== name))
+    function sell(name, number, price){
+        setPortfolio(portfolio.flatMap((stock) => {
+            if(stock.ticker === name){
+                if(stock.shares === number){
+                    setPortfolioValue({invested: portfolioValue.invested - number*stock.avgBuyPrice , remaining: portfolioValue.remaining + number*price})
+                    return [];
+                }
+                else{
+                    setPortfolioValue({invested: portfolioValue.invested - number*stock.avgBuyPrice , remaining: portfolioValue.remaining + number*price})
+                    return([{...stock, shares : stock.shares - number}])
+                }
+                
+            }
+            else{
+                return([{...stock}])
+            }
+        }))
+
     }
+
+
 
     function addToWatchlist(name) {
         if (!watchList.includes(name)) {
@@ -35,10 +58,11 @@ export function WatchlistAndPortfolioProvider( {children}){
             {
                 portfolio,
                 watchList,
-                addToPortfolio,
+                buy,
                 addToWatchlist,
-                deleteFromPortfolio,
-                deleteFromWatchlist
+                sell,
+                deleteFromWatchlist,
+                portfolioValue
             }
         }>
             {children}

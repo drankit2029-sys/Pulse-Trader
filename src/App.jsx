@@ -14,6 +14,7 @@ export default function App() {
 
   return (
     <><WatchlistAndPortfolioProvider>
+      <div className="overflow-hidden scrollbar-none ">
       <Navbar/>
       <Routes>
         <Route path="/" element = {<Home/>} />
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/portfolio/:ticker" element={<StockDetail/>}/>
         <Route path="*" element= {<h1> 404 Error </h1>}/>
       </Routes>
+      </div>
       </WatchlistAndPortfolioProvider>
     </>
   )
