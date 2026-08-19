@@ -3,7 +3,7 @@ import { useContext, createContext, useState} from "react";
 const WatchlistAndPortfolioContext = createContext(null);
 
 export function WatchlistAndPortfolioProvider( {children}){
-    const [portfolio, setPortfolio] = useState([{ticker :"AAPL" , shares: 20 , avgBuyPrice: 400},{ticker:"MSFT", shares:30 , avgBuyPrice: 300}]);
+    const [portfolio, setPortfolio] = useState([{ticker :"AAPL" , shares: 20 , avgBuyPrice: 400, currPrice: 300},{ticker:"MSFT", shares:30 , avgBuyPrice: 300, currPrice: 400}]);
     const [watchList, setWatchlist] = useState(["AAPL"]);
     const [portfolioValue,setPortfolioValue] = useState({invested: 5000, remaining: 5000})
 
@@ -12,13 +12,13 @@ export function WatchlistAndPortfolioProvider( {children}){
         setPortfolio(portfolio.map((stock) => {
             if(stock.ticker === name){
                 bought = true;
-                return({...stock, shares : stock.shares + number, avgBuyPrice: (stock.avgBuyPrice*stock.shares + number*price)/(stock.shares+number)})
+                return({...stock, shares : stock.shares + number, avgBuyPrice: (stock.avgBuyPrice*stock.shares + number*price)/(stock.shares+number), currPrice: price})
             }
             else{
                 return({...stock})
             }
         }))
-        !bought && setPortfolio([...portfolio, {ticker: name, shares: number, avgBuyPrice: price}])
+        !bought && setPortfolio([...portfolio, {ticker: name, shares: number, avgBuyPrice: price, currPrice: price}])
         setPortfolioValue({invested: portfolioValue.invested + number*price , remaining: portfolioValue.remaining - number*price})
     }
 
@@ -31,7 +31,7 @@ export function WatchlistAndPortfolioProvider( {children}){
                 }
                 else{
                     setPortfolioValue({invested: portfolioValue.invested - number*stock.avgBuyPrice , remaining: portfolioValue.remaining + number*price})
-                    return([{...stock, shares : stock.shares - number}])
+                    return([{...stock, shares : stock.shares - number, currPrice: price}])
                 }
                 
             }
@@ -40,6 +40,9 @@ export function WatchlistAndPortfolioProvider( {children}){
             }
         }))
 
+    }
+    function addFunds(price){
+        setPortfolioValue({...portfolioValue, remaining: portfolioValue.remaining + price})
     }
 
 
@@ -62,7 +65,8 @@ export function WatchlistAndPortfolioProvider( {children}){
                 addToWatchlist,
                 sell,
                 deleteFromWatchlist,
-                portfolioValue
+                portfolioValue,
+                addFunds
             }
         }>
             {children}

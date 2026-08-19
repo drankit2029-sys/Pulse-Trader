@@ -35,9 +35,9 @@ function StockCard({ticker}){
 
     return(
         <div className = "flex flex-col text-center gap-2  py-3 rounded-3xl bg-gray-200 h-fit shadow-md">
-            <h2 className="text-2xl font-bold">{ticker}</h2>
+            <h2 className="text-xl font-bold">{ticker}</h2>
             <div className="flex flex-col items-center gap-3">
-                <h2 className="text-xl font-bold">{price}</h2>
+                <h2 className="text-lg font-semibold">{price}</h2>
                 <button className=" cursor-pointer bg-green-500 hover:bg-green-600 active:bg-green-700 text-white text-center font-semibold text-sm px-2 rounded-2xl py-0.5" onClick={fetchPrice}>Fetch price</button>
             </div>
             <div className = "flex justify-center gap-1">
