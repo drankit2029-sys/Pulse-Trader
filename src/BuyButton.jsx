@@ -218,7 +218,7 @@ export function SellButton({ticker, shares}){
         catch(error){
             setPrice("Error2")
         }
-        if(isBuying){
+        if(isSelling){
           console.log(isSelling)
           timerID = setTimeout(fetchPrice,5000)
         }

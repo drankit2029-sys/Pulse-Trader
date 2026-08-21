@@ -50,7 +50,7 @@ export default function App() {
     return ()=> {
       clearInterval(intervalId);
     }
-    })
+    },[])
   return (
     <>
       <div className="overflow-hidden scrollbar-none ">
