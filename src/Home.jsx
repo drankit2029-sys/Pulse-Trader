@@ -1,8 +1,8 @@
 import {useState} from "react" 
 import { useWatchlistPortfolio } from "./ContextProvider"
-import BuyButton from "./BuyButton"
+import {BuyButton} from "./BuyButton"
 export default function Home(){
-    const symbolList = ["AAPL","MSFT", "NVDA","BRK.B", "JPM", "LLY", "GOOGL", "TSM", "ASML","BABA"]
+    const symbolList = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA", "JPM", "V", "UNH", "XOM", "MA", "JNJ", "PG", "HD", "COST", "ABBV", "MRK", "AVGO", "AMD", "CRM", "NFLX", "WMT", "BAC", "CVX", "LLY", "PEP", "KO", "TMO", "CSCO", "ADBE", "QCOM", "INTC", "TXN", "AMAT", "IBM", "ORCL", "NOW", "INTU", "ACN", "CAT", "GE", "DE", "DIS", "NKE", "SBUX", "MCD", "CMG", "LOW", "TJX", "PYPL", "SQ", "UBER", "ABNB", "PLTR", "SNOW", "PANW", "CRWD", "COIN", "PFE", "BMY", "GILD", "AMGN", "VZ", "T", "MS", "GS", "BLK", "ISRG", "SPY"]
     return(
         <>
         <div className="bg-gray-300 min-h-screen">

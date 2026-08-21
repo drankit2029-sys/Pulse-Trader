@@ -1,7 +1,7 @@
 import {useState} from "react"
 import {useEffect} from "react"
 import { useWatchlistPortfolio } from "./ContextProvider.jsx"
-import BuyButton from "./BuyButton.jsx";
+import {BuyButton} from "./BuyButton.jsx";
 export default function Watchlist(){
     const {watchList} = useWatchlistPortfolio();
     return(

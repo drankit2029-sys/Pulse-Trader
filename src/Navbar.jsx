@@ -8,7 +8,6 @@ export default function Navbar(){
         <NavLink to="/" className={({isActive}) => {return((isActive ? "bg-gray-300" : "") + " font-bold rounded-2xl px-2" )}} >Home</NavLink>
         <NavLink to="/watchlist" className={({isActive}) => {return((isActive ? "bg-gray-300" : "") + " font-bold rounded-2xl px-2" )}} >Watchlist</NavLink>
         <NavLink to="/portfolio" className={({isActive}) => {return((isActive ? "bg-gray-300" : "") + " font-bold rounded-2xl px-2" )}} >Portfolio</NavLink>
-        <NavLink to="/profile" className={({isActive}) => {return((isActive ? "bg-gray-300" : "") + " font-bold rounded-2xl px-2" )}} >Profile</NavLink>
         </div>
        
     </div>

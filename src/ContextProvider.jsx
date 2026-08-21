@@ -3,10 +3,16 @@ import { useContext, createContext, useState} from "react";
 const WatchlistAndPortfolioContext = createContext(null);
 
 export function WatchlistAndPortfolioProvider( {children}){
-    const [portfolio, setPortfolio] = useState([{ticker :"AAPL" , shares: 20 , avgBuyPrice: 400, currPrice: 300},{ticker:"MSFT", shares:30 , avgBuyPrice: 300, currPrice: 400}]);
-    const [watchList, setWatchlist] = useState(["AAPL"]);
-    const [portfolioValue,setPortfolioValue] = useState({invested: 5000, remaining: 5000})
+    const [portfolio, setPortfolio] = useState([]);
+    const [watchList, setWatchlist] = useState([]);
+    const [portfolioValue,setPortfolioValue] = useState({invested:(portfolio.reduce((sum, stock) => { return (sum + (stock.avgBuyPrice * stock.shares))} , 0)), remaining: 5000})
 
+    function setCurrPrice(ticker, price){
+        setPortfolio(portfolio.map((stock)=>(stock.ticker===ticker ? {...stock, currPrice: parseFloat(price)} : {...stock})
+        
+        ))
+        
+    }
     function buy(name, number, price){
         let bought = false;
         setPortfolio(portfolio.map((stock) => {
@@ -66,7 +72,8 @@ export function WatchlistAndPortfolioProvider( {children}){
                 sell,
                 deleteFromWatchlist,
                 portfolioValue,
-                addFunds
+                addFunds,
+                setCurrPrice
             }
         }>
             {children}
